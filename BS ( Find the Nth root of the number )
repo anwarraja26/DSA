@@ -1,0 +1,37 @@
+Strivers SDE Binary Search Practice 
+Find the Nth root of the number 
+#include<bits/stdc++.h>
+using namespace std;
+int find_ans(int base,int power){
+    if(base<=0) return 0;
+    int copy_pow=power;
+    int ans=1;
+    while(copy_pow--){
+        ans*=(base);
+    }
+    return ans;
+}
+int main() {
+    int n,m;
+    cout<<"Enter N: ";
+    cin>>n;
+    cout<<"Enter M: ";
+    cin>>m;
+    int low=1,high=m;
+    while(low<=high){
+        int mid=low+(high-low)/2;
+        int rem=find_ans(n,mid);
+        if(rem==m){
+            cout<<"ANS: "<<mid;
+            return 0;
+        }
+        else if(rem>m){
+            high=mid-1;
+        }
+        else{
+            low=mid+1;
+        }
+    }
+    cout<<-1;
+    
+}
