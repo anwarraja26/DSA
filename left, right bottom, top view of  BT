@@ -1,0 +1,83 @@
+199 . Right side view of Binary Tree
+/**
+ * Definition for a binary tree node.
+ * struct TreeNode {
+ *     int val;
+ *     TreeNode *left;
+ *     TreeNode *right;
+ *     TreeNode() : val(0), left(nullptr), right(nullptr) {}
+ *     TreeNode(int x) : val(x), left(nullptr), right(nullptr) {}
+ *     TreeNode(int x, TreeNode *left, TreeNode *right) : val(x), left(left), right(right) {}
+ * };
+ */
+class Solution {
+public:
+    void find_view(TreeNode* root,int& max_level,int level,vector<int>&vec){
+        if(root==nullptr) return;
+        if(level>max_level){
+            vec.push_back(root->val);
+            max_level=level;
+        }
+        find_view(root->right,max_level,level+1,vec);
+        find_view(root->left,max_level,level+1,vec);
+
+    }
+    vector<int> rightSideView(TreeNode* root) {
+        vector<int>vec;
+        int max_level=0;
+        find_view(root,max_level,1,vec);
+        return vec;
+    }
+};
+
+
+Bottom view of binary tree
+https://workat.tech/problem-solving/practice/bottom-view-binary-tree
+
+/* This is the Node class definition
+
+class Node {
+public:
+    Node* left;
+    Node* right;
+    int data;
+
+    Node(int data) {
+        this->left = NULL;0
+        this->right = NULL;
+        this->data = data;
+    }
+};
+*/
+
+vector<int> bottomView(Node* root) {
+	if(root==nullptr) return {};
+    // add your logic here
+	map<int,Node*>mp;
+	queue<pair<Node*,int>>q;
+	q.push({root,0});
+	while(!q.empty()){
+		pair<Node*,int>temp=q.front();
+		q.pop();
+		int level_idx=temp.second;
+		if(mp.find(level_idx)==mp.end()){  // it is for top view remove the if for bottom view update always
+			mp[level_idx]=temp.first;     
+		}
+		if(temp.first->left!=nullptr){
+			q.push({temp.first->left,level_idx-1});
+		}
+		if(temp.first->right!=nullptr){
+			q.push({temp.first->right,level_idx+1});
+		}
+	}
+	vector<int>vec;
+	for(auto& it:mp){
+		Node* temp=it.second;
+		vec.push_back(temp->data);
+		cout<<temp->data<<endl;
+	}
+	return vec;
+	
+	
+}
+
